@@ -4,5 +4,5 @@ export class PlayerDTO {
         readonly username: string,
         readonly birthDate?: string,
         readonly gender?: string
-){}
+    ) { }
 }

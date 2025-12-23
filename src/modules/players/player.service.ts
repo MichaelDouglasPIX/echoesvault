@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PlayerEntity } from "./player.entity";
 import { Repository } from "typeorm";
-import { PlayerDTO } from "./dto/Player.dto";
-import { CreatePlayerDTO } from "./dto/CreatePlayer.dto";
+import { PlayerDTO } from "./dto/player-response.dto";
+import { CreatePlayerDTO } from "./dto/create-player.dto";
 
 @Injectable()
 export class PlayerService {
@@ -26,7 +26,7 @@ export class PlayerService {
     }
 
     async updatePlayer(playerId: string, playerEntity: CreatePlayerDTO) {
-        const updatedPlayer = await this.playerRepository.update(playerId, playerEntity);
+        await this.playerRepository.update(playerId, playerEntity);
     }
 
     async deletePlayer(playerId: string) {

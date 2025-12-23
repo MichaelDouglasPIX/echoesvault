@@ -3,10 +3,12 @@ import { PlayerModule } from './modules/players/player.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from './infra/database/postgres.config.service';
 import { ConfigModule } from '@nestjs/config';
+import { GameModule } from './modules/games/game.module';
 
 @Module({
   imports: [
     PlayerModule,
+    GameModule,
     ConfigModule.forRoot({
       isGlobal: true
     }),

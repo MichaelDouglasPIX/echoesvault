@@ -11,4 +11,4 @@ import { PlayerEntity } from "./player.entity";
     controllers: [playerController],
     providers: [PlayerService, PlayerRepository, UniqueEmailValidator]
 })
-export class PlayerModule {}
+export class PlayerModule { }
