@@ -5,6 +5,6 @@ export class GenreEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ name: 'name', length: 255, nullable: false})
+    @Column({ name: 'name', length: 255, nullable: false, unique: true})
     name: string;
 }
