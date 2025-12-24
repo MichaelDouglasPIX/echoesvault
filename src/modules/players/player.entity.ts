@@ -20,7 +20,7 @@ export class PlayerEntity {
     @Column({ name: 'gender', length: 100, nullable: true })
     gender: string;
 
-    @Column({ name: 'email', length: 70, nullable: false })
+    @Column({ name: 'email', length: 70, nullable: false, unique: true })
     email: string;
 
     @CreateDateColumn({ name: 'created_at' })

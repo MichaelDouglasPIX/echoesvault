@@ -13,7 +13,8 @@ export class PlayerService {
     ) { }
 
     async createPlayer(playerEntity: PlayerEntity) {
-        await this.playerRepository.save(playerEntity);
+        const savedPlayer = await this.playerRepository.save(playerEntity);
+        return savedPlayer;
     }
 
     async listPlayers() {

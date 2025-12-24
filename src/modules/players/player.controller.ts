@@ -14,9 +14,16 @@ export class playerController {
     async createPlayer(@Body() player: CreatePlayerDTO) {
         const playerEntity = player as PlayerEntity;
 
-        await this.playerService.createPlayer(playerEntity);
+        const savedPlayer = await this.playerService.createPlayer(playerEntity);
 
-        return { player: new PlayerDTO(player.username, player.birthDate, player.gender), status: 'Player created' };
+        const playerResponse = new PlayerDTO(
+            savedPlayer.id,
+            savedPlayer.username,
+            savedPlayer.biography,
+            savedPlayer.gender
+        );
+
+        return { player: playerResponse, status: 'Player created' };
     }
 
     @Get()

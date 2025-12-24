@@ -2,10 +2,10 @@ import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from "class-vali
 import { UniqueEmail } from "../validator/email.validator";
 
 export class CreatePlayerDTO {
-    @IsNotEmpty({ message: 'the user cannot be empty'})
+    @IsNotEmpty({ message: 'the user cannot be empty' })
     username: string;
 
-    @MinLength(6, {message: 'the password must have at least 6 characters'})
+    @MinLength(6, { message: 'the password must have at least 6 characters' })
     @IsString()
     password: string;
 
@@ -21,7 +21,7 @@ export class CreatePlayerDTO {
     @IsString()
     gender: string;
 
-    @IsEmail(undefined, { message: 'the provided email is invalid'})
-    @UniqueEmail({ message: 'email already registered'})
+    @IsEmail(undefined, { message: 'the provided email is invalid' })
+    @UniqueEmail({ message: 'email already registered' })
     email: string;
 }
