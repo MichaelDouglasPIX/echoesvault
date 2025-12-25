@@ -5,7 +5,7 @@ import { PlayerDTO } from "./dto/player-response.dto";
 import { PlayerService } from "./player.service";
 
 @Controller('/players')
-export class playerController {
+export class PlayerController {
     constructor(
         private playerService: PlayerService
     ) { }
@@ -14,7 +14,7 @@ export class playerController {
     async createPlayer(@Body() player: CreatePlayerDTO) {
         const playerEntity = player as PlayerEntity;
 
-        const savedPlayer = await this.playerService.createPlayer(playerEntity);
+        const savedPlayer = await this.playerService.create(playerEntity);
 
         const playerResponse = new PlayerDTO(
             savedPlayer.id,
@@ -28,7 +28,7 @@ export class playerController {
 
     @Get()
     async listPlayers() {
-        const registeredPlayers = await this.playerService.listPlayers();
+        const registeredPlayers = await this.playerService.findAll();
         return registeredPlayers;
     }
 
@@ -37,7 +37,7 @@ export class playerController {
         @Param('id') playerId: string,
         @Body() newData: CreatePlayerDTO,
     ) {
-        await this.playerService.updatePlayer(playerId, newData);
+        await this.playerService.update(playerId, newData);
 
         return {
             message: `player ${playerId} updated successfully`
@@ -46,7 +46,7 @@ export class playerController {
 
     @Delete('/:id')
     async deletePlayer(@Param('id') playerId: string) {
-        await this.playerService.deletePlayer(playerId);
+        await this.playerService.remove(playerId);
 
         return {
             message: `player ${playerId} deleted successfully`

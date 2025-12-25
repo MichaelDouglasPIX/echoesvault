@@ -12,12 +12,12 @@ export class PlayerService {
         private readonly playerRepository: Repository<PlayerEntity>
     ) { }
 
-    async createPlayer(playerEntity: PlayerEntity) {
+    async create(playerEntity: PlayerEntity) {
         const savedPlayer = await this.playerRepository.save(playerEntity);
         return savedPlayer;
     }
 
-    async listPlayers() {
+    async findAll() {
         const registeredPlayers = await this.playerRepository.find();
         const playersList = registeredPlayers.map(
             (player) => new PlayerDTO(player.id, player.username, player.birthDate, player.gender)
@@ -26,11 +26,11 @@ export class PlayerService {
         return playersList;
     }
 
-    async updatePlayer(playerId: string, playerEntity: CreatePlayerDTO) {
+    async update(playerId: string, playerEntity: CreatePlayerDTO) {
         await this.playerRepository.update(playerId, playerEntity);
     }
 
-    async deletePlayer(playerId: string) {
+    async remove(playerId: string) {
         await this.playerRepository.delete(playerId);
     }
 }

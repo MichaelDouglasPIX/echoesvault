@@ -12,12 +12,12 @@ export class PlatformService {
         private readonly platformRepository: Repository<PlatformEntity>
     ) { }
 
-    async createPlatform(platformEntity: PlatformEntity) {
+    async create(platformEntity: PlatformEntity) {
         const savedPlatform = await this.platformRepository.save(platformEntity);
         return savedPlatform;
     }
 
-    async listPlatform() {
+    async findAll() {
         const registeredPlatforms = await this.platformRepository.find();
         const platformList = registeredPlatforms.map(
             (platform) => new PlatformResponseDTO(platform.id, platform.name)
@@ -26,11 +26,11 @@ export class PlatformService {
         return platformList;
     }
 
-    async updatePlatform(platformId: string, platformEntity: CreatePlatformDTO) {
-        const platform = await this.platformRepository.update(platformId, platformEntity);
+    async update(platformId: string, platformEntity: CreatePlatformDTO) {
+        await this.platformRepository.update(platformId, platformEntity);
     }
 
-    async deletePlatform(platformId: string) {
-        const platform = await this.platformRepository.delete(platformId);
+    async remove(platformId: string) {
+        await this.platformRepository.delete(platformId);
     }
 }

@@ -11,12 +11,12 @@ export class GameService {
         private readonly gameRepository: Repository<GameEntity>
     ) { }
 
-    async createGame(gameEntity: GameEntity) {
+    async create(gameEntity: GameEntity) {
         const savedGame = await this.gameRepository.save(gameEntity);
         return savedGame;
     }
 
-    async listGames() {
+    async findAll() {
         const registeredGames = await this.gameRepository.find();
         const gameList = registeredGames.map(
             (game) => new GameResponseDTO(
@@ -31,11 +31,11 @@ export class GameService {
         return gameList;
     }
 
-    async updateGame(gameId: string, gameEntity) {
+    async update(gameId: string, gameEntity) {
         await this.gameRepository.update(gameId, gameEntity);
     }
 
-    async deleteGame(gameId: string) {
+    async remove(gameId: string) {
         await this.gameRepository.delete(gameId);
     }
 }

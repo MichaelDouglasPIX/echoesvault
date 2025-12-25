@@ -5,7 +5,7 @@ import { PlatformEntity } from "./platform.entity";
 import { PlatformResponseDTO } from "./dto/platform-response.dto";
 
 @Controller('/platforms')
-export class platformController {
+export class PlatformController {
     constructor(
         private platformService: PlatformService
     ) { }
@@ -14,7 +14,7 @@ export class platformController {
     async createPlatform(@Body() platform: CreatePlatformDTO) {
         const platformEntity = platform as PlatformEntity;
 
-        const savedPlatform = await this.platformService.createPlatform(platformEntity);
+        const savedPlatform = await this.platformService.create(platformEntity);
 
         const platformResponse = new PlatformResponseDTO(
             savedPlatform.id,
@@ -26,7 +26,7 @@ export class platformController {
 
     @Get()
     async listPlatforms() {
-        const registeredPlatforms = await this.platformService.listPlatform();
+        const registeredPlatforms = await this.platformService.findAll();
         return registeredPlatforms;
     }
 
@@ -35,7 +35,7 @@ export class platformController {
         @Param('id') platformId: string,
         @Body() newData: CreatePlatformDTO
     ) {
-        await this.platformService.updatePlatform(platformId, newData);
+        await this.platformService.update(platformId, newData);
 
         return {
             message: `platform ${platformId} updated successfully`
@@ -44,7 +44,7 @@ export class platformController {
 
     @Delete('/:id')
     async deletePlatform(@Param('id') platformId: string) {
-        await this.platformService.deletePlatform(platformId);
+        await this.platformService.remove(platformId);
 
         return {
             message: `platform ${platformId} deleted successfully`

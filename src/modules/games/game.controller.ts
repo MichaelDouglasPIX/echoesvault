@@ -5,7 +5,7 @@ import { GameEntity } from "./game.entity";
 import { GameResponseDTO } from "./dto/game-response.dto";
 
 @Controller('/games')
-export class gameController {
+export class GameController {
     constructor(
         private gameService: GameService
     ) { }
@@ -14,7 +14,7 @@ export class gameController {
     async createGame(@Body() game: CreateGameDTO) {
         const gameEntity = game as GameEntity;
 
-        const savedGame = await this.gameService.createGame(gameEntity);
+        const savedGame = await this.gameService.create(gameEntity);
 
         const gameResponse = new GameResponseDTO(
             savedGame.id,
@@ -30,7 +30,7 @@ export class gameController {
 
     @Get()
     async listGames() {
-        const registeredGames = await this.gameService.listGames();
+        const registeredGames = await this.gameService.findAll();
         return registeredGames;
     }
 
@@ -39,7 +39,7 @@ export class gameController {
         @Param('id') gameId: string,
         @Body() newData: CreateGameDTO
     ) {
-        await this.gameService.updateGame(gameId, newData);
+        await this.gameService.update(gameId, newData);
 
         return {
             message: `game ${gameId} updated successfully`
@@ -48,7 +48,7 @@ export class gameController {
 
     @Delete('/:id')
     async deleteGame(@Param('id') gameId: string) {
-        await this.gameService.deleteGame(gameId);
+        await this.gameService.remove(gameId);
 
         return {
             message: `game ${gameId} deleted successfully`

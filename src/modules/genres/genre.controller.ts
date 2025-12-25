@@ -5,16 +5,16 @@ import { GenreEntity } from "./genre.entity";
 import { GenreResponseDTO } from "./dto/genre-response.dto";
 
 @Controller('/genres')
-export class genreController {
+export class GenreController {
     constructor(
         private genreService: GenreService
     ) { }
 
     @Post()
-    async createGenre(@Body() genre: CreateGenreDTO) {
+    async create(@Body() genre: CreateGenreDTO) {
         const genreEntity = genre as GenreEntity;
 
-        const savedGenre = await this.genreService.createGenre(genreEntity);
+        const savedGenre = await this.genreService.create(genreEntity);
 
         const genreResponse = new GenreResponseDTO(
             savedGenre.id,
@@ -25,17 +25,17 @@ export class genreController {
     }
 
     @Get()
-    async listGenres() {
-        const registeredGenres = await this.genreService.listGenres();
+    async findAll() {
+        const registeredGenres = await this.genreService.findAll();
         return registeredGenres;
     }
 
     @Put('/:id')
-    async updateGenre(
+    async update(
         @Param('id') genreId: string,
-        @Body() newData: CreateGenreDTO
+        @Body() dto: CreateGenreDTO
     ) {
-        await this.genreService.updateGenre(genreId, newData);
+        await this.genreService.update(genreId, dto);
 
         return {
             message: `genre ${genreId} updated successfully`
@@ -43,8 +43,8 @@ export class genreController {
     }
 
     @Delete('/:id')
-    async deleteGenre(@Param('id') genreId: string) {
-        await this.genreService.deleteGenre(genreId);
+    async remove(@Param('id') genreId: string) {
+        await this.genreService.remove(genreId);
 
         return {
             message: `genre ${genreId} deleted successfully`

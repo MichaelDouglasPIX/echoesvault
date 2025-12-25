@@ -12,12 +12,12 @@ export class GenreService {
         private readonly genreRepository: Repository<GenreEntity>
     ) { }
 
-    async createGenre(genreEntity: GenreEntity) {
+    async create(genreEntity: GenreEntity) {
         const savedGenre = await this.genreRepository.save(genreEntity);
         return savedGenre;
     }
 
-    async listGenres() {
+    async findAll() {
         const registeredGenres = await this.genreRepository.find();
         const genreList = registeredGenres.map(
             (genre) => new GenreResponseDTO(genre.id, genre.name)
@@ -26,11 +26,11 @@ export class GenreService {
         return genreList;
     }
 
-    async updateGenre(genreId: string, genreEntity: CreateGenreDTO) {
+    async update(genreId: string, genreEntity: CreateGenreDTO) {
         await this.genreRepository.update(genreId, genreEntity);
     }
 
-    async deleteGenre(genreId: string) {
+    async remove(genreId: string) {
         await this.genreRepository.delete(genreId);
     }
 }
