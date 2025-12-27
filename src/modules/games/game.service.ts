@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { GameEntity } from "./game.entity";
 import { Repository } from "typeorm";
 import { GameResponseDTO } from "./dto/game-response.dto";
+import { CreateGameDTO } from "./dto/create-game.dto";
 
 @Injectable()
 export class GameService {
@@ -31,7 +32,7 @@ export class GameService {
         return gameList;
     }
 
-    async update(gameId: string, gameEntity) {
+    async update(gameId: string, gameEntity: CreateGameDTO) {
         await this.gameRepository.update(gameId, gameEntity);
     }
 

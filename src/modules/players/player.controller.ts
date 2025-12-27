@@ -11,29 +11,19 @@ export class PlayerController {
     ) { }
 
     @Post()
-    async createPlayer(@Body() player: CreatePlayerDTO) {
-        const playerEntity = player as PlayerEntity;
-
-        const savedPlayer = await this.playerService.create(playerEntity);
-
-        const playerResponse = new PlayerDTO(
-            savedPlayer.id,
-            savedPlayer.username,
-            savedPlayer.biography,
-            savedPlayer.gender
-        );
-
-        return { player: playerResponse, status: 'Player created' };
+    async create(@Body() player: CreatePlayerDTO) {
+        const savedPlayer = await this.playerService.create(player);
+        return savedPlayer;
     }
 
     @Get()
-    async listPlayers() {
+    async findAll() {
         const registeredPlayers = await this.playerService.findAll();
         return registeredPlayers;
     }
 
     @Put('/:id')
-    async updatePlayer(
+    async update(
         @Param('id') playerId: string,
         @Body() newData: CreatePlayerDTO,
     ) {
@@ -45,7 +35,7 @@ export class PlayerController {
     }
 
     @Delete('/:id')
-    async deletePlayer(@Param('id') playerId: string) {
+    async delete(@Param('id') playerId: string) {
         await this.playerService.remove(playerId);
 
         return {

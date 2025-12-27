@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { LibraryEntity } from "../library/library.entity";
 
 @Entity({ name: 'players' })
 export class PlayerEntity {
@@ -31,4 +32,8 @@ export class PlayerEntity {
 
     @DeleteDateColumn({ name: 'deleted_at' })
     deletedAt: string;
+
+    @OneToOne(() => LibraryEntity, (library) => library.player, { cascade: true })
+    @JoinColumn({ name: 'library_id' })
+    library: LibraryEntity;
 }
