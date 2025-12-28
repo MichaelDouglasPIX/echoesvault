@@ -12,20 +12,8 @@ export class GameController {
 
     @Post()
     async createGame(@Body() game: CreateGameDTO) {
-        const gameEntity = game as GameEntity;
-
-        const savedGame = await this.gameService.create(gameEntity);
-
-        const gameResponse = new GameResponseDTO(
-            savedGame.id,
-            savedGame.name,
-            savedGame.studio,
-            savedGame.description,
-            savedGame.price,
-            savedGame.releaseDate
-        );
-
-        return { game: gameResponse, status: 'game created' }
+        const savedGame = await this.gameService.create(game);
+        return savedGame;
     }
 
     @Get()
@@ -37,21 +25,15 @@ export class GameController {
     @Put('/:id')
     async updateGames(
         @Param('id') gameId: string,
-        @Body() newData: CreateGameDTO
+        @Body() dto: CreateGameDTO
     ) {
-        await this.gameService.update(gameId, newData);
-
-        return {
-            message: `game ${gameId} updated successfully`
-        }
+        const game = await this.gameService.update(gameId, dto);
+        return game;
     }
 
     @Delete('/:id')
     async deleteGame(@Param('id') gameId: string) {
-        await this.gameService.remove(gameId);
-
-        return {
-            message: `game ${gameId} deleted successfully`
-        }
+        const game = await this.gameService.remove(gameId);
+        return game;
     }
 }

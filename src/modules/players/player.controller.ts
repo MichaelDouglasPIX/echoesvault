@@ -11,8 +11,8 @@ export class PlayerController {
     ) { }
 
     @Post()
-    async create(@Body() player: CreatePlayerDTO) {
-        const savedPlayer = await this.playerService.create(player);
+    async create(@Body() dto: CreatePlayerDTO) {
+        const savedPlayer = await this.playerService.create(dto);
         return savedPlayer;
     }
 
@@ -25,21 +25,15 @@ export class PlayerController {
     @Put('/:id')
     async update(
         @Param('id') playerId: string,
-        @Body() newData: CreatePlayerDTO,
+        @Body() dto: CreatePlayerDTO,
     ) {
-        await this.playerService.update(playerId, newData);
-
-        return {
-            message: `player ${playerId} updated successfully`
-        }
+        const player = await this.playerService.update(playerId, dto);
+        return player;
     }
 
     @Delete('/:id')
     async delete(@Param('id') playerId: string) {
-        await this.playerService.remove(playerId);
-
-        return {
-            message: `player ${playerId} deleted successfully`
-        }
+        const player = await this.playerService.remove(playerId);
+        return player;
     }
 }

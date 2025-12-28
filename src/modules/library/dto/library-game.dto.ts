@@ -1,10 +1,6 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateLibraryGameDTO {
-    @IsNotEmpty({ message: 'the library cannot be empty' })
-    @IsString()
-    library: string;
-
     @IsNotEmpty({ message: 'the game cannot be empty' })
     @IsString()
     game: string;

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PlayerEntity } from "./player.entity";
 import { DataSource, Repository } from "typeorm";
@@ -15,7 +15,7 @@ export class PlayerService {
     ) { }
 
     async create(player: CreatePlayerDTO) {
-        const playerEntity = player as PlayerEntity;
+        const playerEntity = this.playerRepository.create({...player})
 
         const savedPlayer = await this.dataSource.transaction(async (manager) => {
             const library = manager.create(LibraryEntity);
@@ -36,6 +36,29 @@ export class PlayerService {
         return playerResponse;
     }
 
+    async findOne(playerId: string) {
+        const registeredPlayer = await this.playerRepository.findOne({
+            where: { id: playerId },
+            relations: {
+                library: true
+            }
+        });
+
+        if (!registeredPlayer) {
+            throw new NotFoundException(`Player ${playerId} not found`);
+        }
+
+        const player = new PlayerDTO(
+            registeredPlayer.id,
+            registeredPlayer.username,
+            registeredPlayer.library,
+            registeredPlayer.birthDate,
+            registeredPlayer.gender
+        );
+
+        return player;
+    }
+
     async findAll() {
         const registeredPlayers = await this.playerRepository.find({
             relations: {
@@ -50,11 +73,20 @@ export class PlayerService {
         return playersList;
     }
 
-    async update(playerId: string, playerEntity: CreatePlayerDTO) {
+    async update(playerId: string, dto: CreatePlayerDTO) {
+        const playerEntity = this.playerRepository.create({...dto})
         await this.playerRepository.update(playerId, playerEntity);
+
+        return {
+            message: `player ${playerId} updated successfully`
+        }
     }
 
     async remove(playerId: string) {
         await this.playerRepository.delete(playerId);
+
+        return {
+            message: `player ${playerId} deleted successfully`
+        }
     }
 }
