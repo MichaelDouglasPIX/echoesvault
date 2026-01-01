@@ -16,6 +16,14 @@ export class PlayerController {
         return savedPlayer;
     }
 
+    @Get('/:id')
+    async findOne(
+        @Param('id') playerId: string
+    ) {
+        const registeredPlayer = await this.playerService.findOne(playerId);
+        return registeredPlayer;
+    }
+
     @Get()
     async findAll() {
         const registeredPlayers = await this.playerService.findAll();

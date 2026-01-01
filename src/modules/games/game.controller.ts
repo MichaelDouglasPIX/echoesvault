@@ -1,8 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { GameService } from "./game.service";
 import { CreateGameDTO } from "./dto/create-game.dto";
-import { GameEntity } from "./game.entity";
-import { GameResponseDTO } from "./dto/game-response.dto";
 
 @Controller('/games')
 export class GameController {
@@ -11,19 +9,27 @@ export class GameController {
     ) { }
 
     @Post()
-    async createGame(@Body() game: CreateGameDTO) {
-        const savedGame = await this.gameService.create(game);
+    async createGame(@Body() dto: CreateGameDTO) {
+        const savedGame = await this.gameService.create(dto);
         return savedGame;
     }
 
+    @Get('/:id')
+    async findOne(
+        @Param('id') gameId: string 
+    ) {
+        const registeredGame = await this.gameService.findOne(gameId);
+        return registeredGame;
+    }
+
     @Get()
-    async listGames() {
+    async findAll() {
         const registeredGames = await this.gameService.findAll();
         return registeredGames;
     }
 
     @Put('/:id')
-    async updateGames(
+    async update(
         @Param('id') gameId: string,
         @Body() dto: CreateGameDTO
     ) {
@@ -32,7 +38,7 @@ export class GameController {
     }
 
     @Delete('/:id')
-    async deleteGame(@Param('id') gameId: string) {
+    async remove(@Param('id') gameId: string) {
         const game = await this.gameService.remove(gameId);
         return game;
     }

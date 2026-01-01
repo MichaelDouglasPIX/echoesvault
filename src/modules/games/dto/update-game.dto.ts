@@ -1,11 +1,11 @@
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
-export class CreateGameDTO {
-    @IsNotEmpty({ message: 'the name cannot be empty'})
+export class UpdateGameDTO {
+    @IsOptional()
     @IsString()
     name: string;
 
-    @IsNotEmpty({ message: 'the studio cannot be empty'})
+    @IsOptional()
     @IsString()
     studio: string;
     
@@ -17,6 +17,7 @@ export class CreateGameDTO {
     @IsArray()
     genres: string[];
 
+    @IsOptional()
     @IsNumber()
     price: number;
 

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { GenreEntity } from "./genre.entity";
 import { Repository } from "typeorm";
@@ -15,6 +15,21 @@ export class GenreService {
     async create(genreEntity: GenreEntity) {
         const savedGenre = await this.genreRepository.save(genreEntity);
         return savedGenre;
+    }
+
+    async findOne(genreId: string) {
+        const registeredGenre = await this.genreRepository.findOneBy({ id: genreId });
+
+        if (!registeredGenre) {
+            throw new NotFoundException(`Genre ${genreId} not found`);
+        }
+
+        const genre = new GenreResponseDTO(
+            registeredGenre.id,
+            registeredGenre.name
+        );
+
+        return genre;
     }
 
     async findAll() {

@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { LibraryEntity } from "../library/library.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { GameGenreEntity } from "../genres/game-genre.entity";
 
 @Entity({ name: 'games' })
 export class GameEntity {
@@ -15,8 +15,9 @@ export class GameEntity {
     @Column({ name: 'description', type: 'text', nullable: true })
     description: string;
 
-    //@Column({ name: 'genre', length: 100, nullable:true})
-    //genre: string;
+    @OneToMany(() => GameGenreEntity, (genres) => genres.game, { cascade: true })
+    @JoinColumn({ name: 'game_genres_id'})
+    genres: GameGenreEntity[];
 
     @Column({ name: 'price', nullable: true })
     price: number;

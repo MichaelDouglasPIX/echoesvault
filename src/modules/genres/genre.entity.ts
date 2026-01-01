@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { GameGenreEntity } from "./game-genre.entity";
 
 @Entity({ name: 'genres' })
 export class GenreEntity {
