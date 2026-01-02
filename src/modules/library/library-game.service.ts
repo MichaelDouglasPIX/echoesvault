@@ -92,8 +92,8 @@ export class LibraryGameService {
     }
 
     async update(
-        @Param('id') libraryGameId: string,
-        @Body() dto: CreateLibraryGameDTO
+        libraryGameId: string,
+        dto: CreateLibraryGameDTO
     ) {
         const game = await this.gameService.findOne(dto.game);
 

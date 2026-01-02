@@ -8,6 +8,7 @@ import { PlatformModule } from './modules/platforms/platform.module';
 import { GenreModule } from './modules/genres/genre.module';
 import { CountryModule } from './modules/shared/countries/country.module';
 import { LibraryModule } from './modules/library/library.module';
+import { WishlistModule } from './modules/wishlist/wishlist.model';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LibraryModule } from './modules/library/library.module';
     LibraryModule,
     PlatformModule,
     PlayerModule,
+    WishlistModule,
     ConfigModule.forRoot({
       isGlobal: true
     }),
