@@ -5,7 +5,6 @@ import { DataSource, Repository } from "typeorm";
 import { GameResponseDTO } from "./dto/game-response.dto";
 import { CreateGameDTO } from "./dto/create-game.dto";
 import { GenreService } from "../genres/genre.service";
-import { GenreResponseDTO } from "../genres/dto/genre-response.dto";
 import { GenreEntity } from "../genres/genre.entity";
 import { GameGenreEntity } from "../genres/game-genre.entity";
 import { UpdateGameDTO } from "./dto/update-game.dto";
@@ -16,6 +15,7 @@ export class GameService {
         private readonly dataSource: DataSource,
         @InjectRepository(GameEntity)
         private readonly gameRepository: Repository<GameEntity>,
+        private genreService: GenreService
     ) { }
 
     async create(dto: CreateGameDTO) {
@@ -23,15 +23,7 @@ export class GameService {
             let genres: GenreEntity[] = [];
 
             if (dto.genres && dto.genres.length > 0) {
-                genres = await Promise.all(
-                    dto.genres.map(async (genreId) => {
-                        const genre = await manager.findOne(GenreEntity, { where: { id: genreId } });
-                        if (!genre) {
-                            throw new NotFoundException(`Genre ${genreId} not found`);
-                        }
-                        return genre;
-                    })
-                );
+                genres = await this.genreService.findBy(dto.genres);
             }
 
             const gameEntity = manager.create(GameEntity, {
@@ -116,11 +108,11 @@ export class GameService {
 
     async update(gameId: string, dto: UpdateGameDTO) {
         await this.gameRepository.update(gameId, {
-                name: dto.name,
-                studio: dto.studio,
-                description: dto.description,
-                price: dto.price,
-                releaseDate: dto.releaseDate
+            name: dto.name,
+            studio: dto.studio,
+            description: dto.description,
+            price: dto.price,
+            releaseDate: dto.releaseDate
         });
 
         return {

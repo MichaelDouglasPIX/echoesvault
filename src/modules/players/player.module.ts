@@ -9,6 +9,7 @@ import { PlayerEntity } from "./player.entity";
 @Module({
     imports: [TypeOrmModule.forFeature([PlayerEntity])],
     controllers: [PlayerController],
-    providers: [PlayerService, PlayerRepository, UniqueEmailValidator]
+    providers: [PlayerService, PlayerRepository, UniqueEmailValidator],
+    exports: [PlayerService]
 })
 export class PlayerModule { }

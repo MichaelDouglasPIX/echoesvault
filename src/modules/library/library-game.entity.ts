@@ -30,12 +30,14 @@ export class LibraryGameEntity {
 
     @ManyToOne(() => LibraryEntity, (library) => library.libraryGames, {
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'library_id' })
     library: LibraryEntity;
 
     @ManyToOne(() => GameEntity, {
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
     @JoinColumn({ name: 'game_id' })
     game: GameEntity;

@@ -134,15 +134,7 @@ export class GameGenreService {
         let genresFound: GenreEntity[] = [];
 
         if (genres && genres.length > 0) {
-            genresFound = await Promise.all(
-                genres.map(async (genreId) => {
-                    const genre = await this.genreService.findOne(genreId);
-                    if (!genre) {
-                        throw new NotFoundException(`Genre ${genreId} not found`);
-                    }
-                    return genre;
-                })
-            );
+            genresFound = await this.genreService.findBy(genres); 
         }
 
         return genresFound;

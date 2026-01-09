@@ -7,11 +7,14 @@ import { GameService } from "../games/game.service";
 import { PlayerService } from "../players/player.service";
 import { GameEntity } from "../games/game.entity";
 import { PlayerEntity } from "../players/player.entity";
+import { PlayerModule } from "../players/player.module";
+import { GameModule } from "../games/game.module";
+import { GenreModule } from "../genres/genre.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([WishlistEntity, GameEntity, PlayerEntity])],
+    imports: [TypeOrmModule.forFeature([WishlistEntity]), PlayerModule, GameModule],
     controllers: [WishlistController],
-    providers: [WishlistService, GameService, PlayerService]
+    providers: [WishlistService]
 })
 
 export class WishlistModule { }

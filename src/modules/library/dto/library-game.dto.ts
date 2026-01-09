@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class CreateLibraryGameDTO {
     @IsNotEmpty({ message: 'the game cannot be empty' })
-    @IsString()
+    @IsUUID()
     game: string;
 
     @IsNotEmpty({ message: 'the acquiredAt cannot be empty' })

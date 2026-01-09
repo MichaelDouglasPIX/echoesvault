@@ -4,19 +4,15 @@ import { LibraryEntity } from "./library.entity";
 import { LibraryGameService } from "./library-game.service";
 import { LibraryGameEntity } from "./library-game.entity";
 import { LibraryGameController } from "./library-game.controller";
-import { GameService } from "../games/game.service";
-import { PlayerService } from "../players/player.service";
-import { PlayerEntity } from "../players/player.entity";
-import { GameEntity } from "../games/game.entity";
-import { GameGenreEntity } from "../genres/game-genre.entity";
-import { GenreService } from "../genres/genre.service";
-import { GenreEntity } from "../genres/genre.entity";
+import { PlayerModule } from "../players/player.module";
+import { GameModule } from "../games/game.module";
+import { GenreModule } from "../genres/genre.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([LibraryEntity, LibraryGameEntity, PlayerEntity, GameEntity, GenreEntity, GameGenreEntity])],
+    imports: [TypeOrmModule.forFeature([LibraryEntity, LibraryGameEntity]), PlayerModule, GameModule, GenreModule],
     controllers: [LibraryGameController],
-    providers: [GameService, PlayerService, LibraryGameService, GenreService]
+    providers: [LibraryGameService]
 })
 
 
-export class LibraryModule {}
+export class LibraryModule { }

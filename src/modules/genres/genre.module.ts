@@ -8,7 +8,8 @@ import { GameGenreEntity } from "./game-genre.entity";
 @Module({
     imports: [TypeOrmModule.forFeature([GenreEntity, GameGenreEntity])],
     controllers: [GenreController],
-    providers: [GenreService]
+    providers: [GenreService],
+    exports: [GenreService]
 })
 
 export class GenreModule { }

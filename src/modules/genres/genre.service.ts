@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { GenreEntity } from "./genre.entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { GenreResponseDTO } from "./dto/genre-response.dto";
 import { CreateGenreDTO } from "./dto/create-genre.dto";
 
@@ -39,6 +39,24 @@ export class GenreService {
         );
 
         return genreList;
+    }
+
+    async findBy(genres: string[]) {
+        const genresFound = await this.genreRepository.findBy({
+            id: In(genres)
+        });
+
+        if (genresFound.length !== genres.length) {
+            const foundIds = genresFound.map((genre) => genre.id);
+
+            const missingIds = genres.filter(
+                (id) => !foundIds.includes(id)
+            );
+
+            throw new NotFoundException( `genres not found: ${missingIds.join(', ')}`);
+        }
+
+        return genresFound;
     }
 
     async update(genreId: string, genreEntity: CreateGenreDTO) {
